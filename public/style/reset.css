@@ -1,0 +1,20 @@
+html, body {
+  min-height: 100dvh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+body > div.content {
+  flex: 1;
+}
+
+body > div.content > main {
+  padding: 1rem;
+}
+
+nav {
+  padding-inline: 1rem;
+}
