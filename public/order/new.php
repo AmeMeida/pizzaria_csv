@@ -8,9 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $order = new Order(null, $_POST["costumer"], $_POST["address"], $_POST["quantity"]);
 
   $order->create($_POST["item"]);
-
-  header("Location: /csv/order?id={$order->id}");
-  exit;
 }
 
 require_once __DIR__ . "/../../model/item.php";
@@ -22,10 +19,10 @@ require_once __DIR__ . "/../../partials/head.php" ?>
 <main>
   <hgroup>
     <h1>New order</h1>
-    <h3><a href="/csv/order">See all orders</a></h3>
+    <h3><a href="./order">See all orders</a></h3>
   </hgroup>
 
-  <form action="#" method="post">
+  <form action="./order/new.php" method="post">
     <div class="grid">
       <label for="costumer">
         Costumer name

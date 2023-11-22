@@ -39,7 +39,7 @@ class Order {
                                   items.description as item_description
                            FROM orders
                            INNER JOIN items ON orders.item_id = items.id
-                           WHERE items.name LIKE :name
+                           WHERE costumer LIKE :name
                            ORDER BY created_at DESC;
                          ');
 
@@ -66,6 +66,10 @@ class Order {
                       ');
     $req->execute(['id' => $id]);
     $order = $req->fetch();
+
+    if (!$order) {
+      return null;
+    }
 
     $item = new Item($order['item_id'], $order['item_name'], $order['item_price'], $order['item_description']);
 

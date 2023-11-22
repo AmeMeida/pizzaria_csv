@@ -9,7 +9,7 @@ class Database {
   private $connection;
 
   private function __construct() {
-    $this->connection = new PDO('mysql:host=localhost;dbname=pizzaria_csv', 'root', '');
+    $this->connection = new PDO('sqlite:' . __DIR__ . '/database.db');
     $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
 

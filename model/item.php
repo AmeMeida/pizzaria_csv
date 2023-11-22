@@ -16,10 +16,16 @@ class Item {
     $this->description = $description;
   }
 
-  public static function all() {
+  public static function all($name = null) {
     $list = [];
     $db = DB::getInstance();
-    $req = $db->query('SELECT id, name, price, description FROM items');
+
+    if ($name == null) {
+      $req = $db->query('SELECT id, name, price, description FROM items');
+    } else {
+      $req = $db->prepare('SELECT id, name, price, description FROM items WHERE name LIKE :name');
+      $req->execute(['name' => "%$name%"]);
+    }
 
     foreach($req->fetchAll() as $item) {
       $list[] = new Item($item['id'], $item['name'], $item['price'], $item['description']);
@@ -34,7 +40,7 @@ class Item {
     $req->execute(['id' => $id]);
     $item = $req->fetch();
 
-    return new Item($item['id'], $item['name'], $item['price'], $item['description']);
+    return $item == null ? null : new Item($item['id'], $item['name'], $item['price'], $item['description']);
   }
 
   public function exists() {

@@ -1,19 +1,19 @@
 --- sqlite3
 
 CREATE TABLE items (
-  id SERIAL PRIMARY KEY,
-  `name` VARCHAR(64) NOT NULL,
+  id INTEGER PRIMARY KEY,
+  `name` TEXT NOT NULL,
   price INTEGER NOT NULL,
   `description` TEXT NOT NULL
 );
 
 CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  costumer VARCHAR(64) NOT NULL,
-  `address` VARCHAR(64) NOT NULL,
-  item_id BIGINT UNSIGNED NOT NULL,
-  quantity INT NOT NULL DEFAULT 1,
-  created_at DATETIME NOT NULL DEFAULT (NOW()),
+  id INTEGER PRIMARY KEY,
+  costumer TEXT NOT NULL,
+  `address` TEXT NOT NULL,
+  item_id INTEGER NOT NULL,
+  quantity INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL DEFAULT (strftime('%s')),
 
   FOREIGN KEY (item_id) REFERENCES items(id)
 );

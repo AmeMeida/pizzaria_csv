@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo $e->getMessage();
   }
 
-  header("Location: /csv/item?id={$item->id}");
 }
 
 ?>
@@ -28,10 +27,10 @@ require_once __DIR__ . "/../../partials/head.php" ?>
 <main>
   <hgroup>
     <h1>Create a new item</h1>
-    <h3><a href="/csv/item">See all items</a></h3>
+    <h3><a href="./item">See all items</a></h3>
   </hgroup>
 
-  <form action="#" method="post">
+  <form action="./item/new.php" method="post">
     <div class="grid">
       <label for="name">
         Item name

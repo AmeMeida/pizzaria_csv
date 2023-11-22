@@ -3,9 +3,9 @@
     <li><strong>Pizzaria</strong></li>
   </ul>
   <ul>
-    <li><a href="/csv">Home</a></li>
-    <li><a href="/csv/order">Orders</a></li>
-    <li><a href="/csv/item">Items</a></li>
-    <li><a href="/csv/metrics">Metrics</a></li>
+    <li><a href="./">Home</a></li>
+    <li><a href="./order">Orders</a></li>
+    <li><a href="./item">Items</a></li>
+    <li><a href="./metrics">Metrics</a></li>
   </ul>
 </nav>

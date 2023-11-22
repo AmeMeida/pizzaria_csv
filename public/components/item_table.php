@@ -1,7 +1,13 @@
 <?php
 require_once __DIR__ . '/../../model/item.php';
 
-$items = Item::all();
+if (!isset($_GET['id']) || !$_GET['id']) {
+  $itemName = isset($_GET['name']) && $_GET["name"] ? $_GET['name'] : null;
+  $items = Item::all($itemName);
+} else {
+  $item = Item::find($_GET['id']);
+  $items = $item ? [$item] : [];
+}
 ?>
 
 <table role="grid">

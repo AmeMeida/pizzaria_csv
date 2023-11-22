@@ -10,14 +10,16 @@ $id = isset($_GET["id"]) && $_GET["id"] ? $_GET["id"] : null;
 <main>
   <hgroup>
     <h1>Orders</h1>
-    <h3><a href="/csv/order/new.php">Create a new order</a></h3>
+    <h3><a href="./order/new.php">Create a new order</a></h3>
   </hgroup>
+
+  <?php require_once __DIR__ . '/../../partials/orders_download.php' ?>
 
   <form>
     <div class="grid">
-      <label for="costumer">
+      <label for="name">
         Filter by costumer name
-        <input type="text" name="customer">
+        <input type="text" name="name">
       </label>
 
       <label for="id">

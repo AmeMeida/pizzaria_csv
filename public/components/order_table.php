@@ -1,13 +1,14 @@
 <?php
 require_once __DIR__ . "/../../model/order.php";
 
-$costumer = isset($_GET['customer']) && $_GET["customer"] ? $_GET['customer'] : null;
+$costumer = isset($_GET['name']) && $_GET["name"] ? $_GET['name'] : null;
 
 
 if (!isset($_GET['id']) || !$_GET['id']) {
   $orders = Order::all($costumer);
 } else {
-  $orders = [Order::find($_GET['id'])];
+  $order = Order::find($_GET['id']);
+  $orders = $order ? [$order] : [];
 }
 ?>
 
