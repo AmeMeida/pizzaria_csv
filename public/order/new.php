@@ -5,7 +5,7 @@ ini_set("display_errors", 1);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   require_once __DIR__ . "/../../model/order.php";
 
-  $order = new Order(null, $_POST["costumer"], $_POST["address"], $_POST["quantity"]);
+  $order = new Order(null, $_POST["customer"], $_POST["address"], $_POST["quantity"], isset($_POST['notes']) && $_POST['notes'] ? $_POST['notes'] : null);
 
   $order->create($_POST["item"]);
 }
@@ -24,13 +24,13 @@ require_once __DIR__ . "/../../partials/head.php" ?>
 
   <form action="./order/new.php" method="post">
     <div class="grid">
-      <label for="costumer">
-        Costumer name
-        <input type="text" required name="costumer">
+      <label for="customer">
+        customer name
+        <input type="text" required name="customer">
       </label>
 
       <label for="address">
-        Costumer address
+        customer address
         <input type="text" required name="address">
       </label>
 
@@ -39,6 +39,11 @@ require_once __DIR__ . "/../../partials/head.php" ?>
         <input type="number" required name="quantity" min="1" value="1">
       </label>
     </div>
+
+    <label for="notes">
+      Additional notes
+      <textarea name="notes" rows="5"></textarea>
+    </label>
 
     <label for="item">
       Ordered item

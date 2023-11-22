@@ -9,8 +9,9 @@ CREATE TABLE items (
 
 CREATE TABLE orders (
   id INTEGER PRIMARY KEY,
-  costumer TEXT NOT NULL,
+  customer TEXT NOT NULL,
   `address` TEXT NOT NULL,
+  notes TEXT,
   item_id INTEGER NOT NULL,
   quantity INTEGER NOT NULL DEFAULT 1,
   created_at INTEGER NOT NULL DEFAULT (strftime('%s')),

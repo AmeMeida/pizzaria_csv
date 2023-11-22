@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . "/../../model/order.php";
 
-$costumer = isset($_GET['name']) && $_GET["name"] ? $_GET['name'] : null;
+$customer = isset($_GET['name']) && $_GET["name"] ? $_GET['name'] : null;
 
 
 if (!isset($_GET['id']) || !$_GET['id']) {
-  $orders = Order::all($costumer);
+  $orders = Order::all($customer);
 } else {
   $order = Order::find($_GET['id']);
   $orders = $order ? [$order] : [];
@@ -19,7 +19,8 @@ if (!isset($_GET['id']) || !$_GET['id']) {
       <th>Customer</th>
       <th>Address</th>
       <th>Item</th>
-      <th>Price</th>
+      <th>Subtotal</th>
+      <th>Notes</th>
       <th>Quantity</th>
     </tr>
   </thead>
@@ -27,10 +28,11 @@ if (!isset($_GET['id']) || !$_GET['id']) {
     <?php foreach ($orders as $order): ?>
       <tr>
         <td><?= $order->id ?></td>
-        <td><?= $order->costumer ?></td>
+        <td><?= $order->customer ?></td>
         <td><?= $order->address ?></td>
         <td><?= $order->item->name ?></td>
-        <td><?= $order->item->price ?></td>
+        <td><?= $order->item->price * $order->quantity ?></td>
+        <td><?= $order->notes ?></td>
         <td><?= $order->quantity ?></td>
       </tr>
     <?php endforeach; ?>

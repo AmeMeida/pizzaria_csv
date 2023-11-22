@@ -17,7 +17,7 @@ $orders = Order::all();
 foreach ($orders as $order) {
   $row = [
     $order->id,
-    $order->costumer,
+    $order->customer,
     $order->address,
     $order->quantity,
     $order->item->id,

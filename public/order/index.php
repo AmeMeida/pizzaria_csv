@@ -18,7 +18,7 @@ $id = isset($_GET["id"]) && $_GET["id"] ? $_GET["id"] : null;
   <form>
     <div class="grid">
       <label for="name">
-        Filter by costumer name
+        Filter by customer name
         <input type="text" name="name">
       </label>
 

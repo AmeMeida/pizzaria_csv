@@ -7,17 +7,19 @@ use DB\Database as DB;
 
 class Order {
   public  $id;
-  public $costumer;
+  public $customer;
   public $address;
   public $item;
   public $quantity;
+  public $notes;
   public $date;
 
-  function __construct(?int $id, string $costumer, string $address, int $quantity = 1, ?Item $item = null, ?string $date = null) {
+  function __construct(?int $id, string $customer, string $address, int $quantity = 1, ?string $notes = null, ?Item $item = null, ?string $date = null) {
     $this->id = $id;
-    $this->costumer = $costumer;
+    $this->customer = $customer;
     $this->address = $address;
     $this->quantity = $quantity;
+    $this->notes = $notes;
     $this->item = $item;
     $this->date = $date;
   }
@@ -27,19 +29,19 @@ class Order {
     $db = DB::getInstance();
 
     if ($name == null) {
-      $req = $db->query('SELECT orders.id, costumer, address, created_at as `date`, quantity,
+      $req = $db->query('SELECT orders.id, customer, address, created_at as `date`, quantity, notes,
                                 items.id as item_id, items.name as item_name, items.price as item_price, items.description as item_description
                         FROM orders
                         INNER JOIN items ON orders.item_id = items.id
                         ORDER BY created_at DESC;
                       ');
     } else {
-      $req = $db->prepare('SELECT orders.id, costumer, address, created_at as `date`, quantity,
+      $req = $db->prepare('SELECT orders.id, customer, address, created_at as `date`, quantity, notes,
                                   items.id as item_id, items.name as item_name, items.price as item_price,
                                   items.description as item_description
                            FROM orders
                            INNER JOIN items ON orders.item_id = items.id
-                           WHERE costumer LIKE :name
+                           WHERE customer LIKE :name
                            ORDER BY created_at DESC;
                          ');
 
@@ -49,7 +51,7 @@ class Order {
     foreach($req->fetchAll() as $order) {
       $item = new Item($order['item_id'], $order['item_name'], $order['item_price'], $order['item_description']);
 
-      $list[] = new Order($order['id'], $order['costumer'], $order['address'], $order["quantity"], $item, $order['date']);
+      $list[] = new Order($order['id'], $order['customer'], $order['address'], $order["quantity"], $order["notes"], $item, $order['date']);
     }
 
     return $list;
@@ -57,7 +59,7 @@ class Order {
 
   public static function find(int $id) {
     $db = DB::getInstance();
-    $req = $db->prepare('SELECT orders.id, costumer, address, created_at as `date`, quantity,
+    $req = $db->prepare('SELECT orders.id, customer, address, created_at as `date`, quantity, notes,
                                 items.id as item_id, items.name as item_name, items.price as item_price, items.description as item_description
                          FROM orders
                          INNER JOIN items ON orders.item_id = items.id
@@ -73,7 +75,7 @@ class Order {
 
     $item = new Item($order['item_id'], $order['item_name'], $order['item_price'], $order['item_description']);
 
-    return new Order($order['id'], $order['costumer'], $order['address'], $order['quantity'], $item, $order['date']);
+    return new Order($order['id'], $order['customer'], $order['address'], $order['quantity'], $order['notes'], $item, $order['date']);
   }
 
   public function exists(): bool {
@@ -87,12 +89,13 @@ class Order {
 
   public function create(int $itemId): void {
     $db = DB::getInstance();
-    $req = $db->prepare('INSERT INTO orders (costumer, address, quantity, item_id)
-                        VALUES (:costumer, :address, :quantity, :item_id)');
+    $req = $db->prepare('INSERT INTO orders (customer, address, quantity, notes, item_id)
+                        VALUES (:customer, :address, :quantity, :notes, :item_id)');
     $req->execute([
-      'costumer' => $this->costumer,
+      'customer' => $this->customer,
       'address' => $this->address,
       'quantity' => $this->quantity,
+      'notes' => $this->notes,
       'item_id' => $itemId
     ]);
 
@@ -101,10 +104,10 @@ class Order {
 
   public function update(): void {
     $db = DB::getInstance();
-    $req = $db->prepare('UPDATE orders SET costumer = :costumer, address = :address, item_id = :item_id WHERE id = :id');
+    $req = $db->prepare('UPDATE orders SET customer = :customer, address = :address, item_id = :item_id WHERE id = :id');
     $req->execute([
       'id' => $this->id,
-      'costumer' => $this->costumer,
+      'customer' => $this->customer,
       'address' => $this->address,
       'item_id' => $this->item->id
     ]);
