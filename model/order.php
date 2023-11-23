@@ -29,14 +29,14 @@ class Order {
     $db = DB::getInstance();
 
     if ($name == null) {
-      $req = $db->query('SELECT orders.id, customer, address, created_at as `date`, quantity, notes,
+      $req = $db->query('SELECT orders.id, customer, address, datetime(created_at, \'unixepoch\') as `date`, quantity, notes,
                                 items.id as item_id, items.name as item_name, items.price as item_price, items.description as item_description
                         FROM orders
                         INNER JOIN items ON orders.item_id = items.id
                         ORDER BY created_at DESC;
                       ');
     } else {
-      $req = $db->prepare('SELECT orders.id, customer, address, created_at as `date`, quantity, notes,
+      $req = $db->prepare('SELECT orders.id, customer, address, datetime(created_at, \'unixepoch\') as `date`, quantity, notes,
                                   items.id as item_id, items.name as item_name, items.price as item_price,
                                   items.description as item_description
                            FROM orders
@@ -59,7 +59,7 @@ class Order {
 
   public static function find(int $id) {
     $db = DB::getInstance();
-    $req = $db->prepare('SELECT orders.id, customer, address, created_at as `date`, quantity, notes,
+    $req = $db->prepare('SELECT orders.id, customer, address, datetime(created_at, \'unixepoch\') as `date`, quantity, notes,
                                 items.id as item_id, items.name as item_name, items.price as item_price, items.description as item_description
                          FROM orders
                          INNER JOIN items ON orders.item_id = items.id

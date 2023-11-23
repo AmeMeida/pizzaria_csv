@@ -2,14 +2,19 @@
 require_once __DIR__ . "/../model/order.php";
 
 $csv_path = __DIR__ . "/../public/uploads/csv/orders.csv";
+
 $file = fopen($csv_path, "w");
 
 $header = [
   "id",
   "name",
-  "price",
-  "description"
+  "notes",
+  "address",
+  "quantity",
+  "item",
+  "date"
 ];
+
 fputcsv($file, $header);
 
 $orders = Order::all();
@@ -18,6 +23,7 @@ foreach ($orders as $order) {
   $row = [
     $order->id,
     $order->customer,
+    $order->notes,
     $order->address,
     $order->quantity,
     $order->item->id,
